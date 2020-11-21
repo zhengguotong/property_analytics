@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePropertiesTable extends Migration
+class CreatePropertyAnalyticsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreatePropertiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('properties', function (Blueprint $table) {
+        Schema::create('property_analytics', function (Blueprint $table) {
             $table->id();
-            $table->uuid('guid')->unique();
-            $table->string('suburb')->index();
-            $table->string('state')->index();
-            $table->string('country')->index();
+            $table->foreignId('property_id')->constrained();
+            $table->foreignId('analytic_type_id')->constrained();
+            $table->text('value');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreatePropertiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('properties');
+        Schema::dropIfExists('property_analytics');
     }
 }
