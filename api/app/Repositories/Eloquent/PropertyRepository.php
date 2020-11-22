@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\Property;
+use App\Http\Resources\PropertyAnalytic as PropertyAnalyticResource;
 use App\Repositories\Contracts\IProperty;
 use App\Repositories\Eloquent\BaseRepository;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class PropertyRepository extends BaseRepository implements IProperty
     public function store(Request $request)
     {
         $fields = $request->all();
-        
+
         //generate UUID for this property
         $fields['guid'] = (string) Str::uuid();
 
@@ -30,5 +31,18 @@ class PropertyRepository extends BaseRepository implements IProperty
             'message' => 'New model created',
             'data' => $model
         ]);
+    }
+
+    public function analytics($id)
+    {
+        $model = $this->model->find($id);
+        if ($model) {
+            return PropertyAnalyticResource::collection($model->analytics);
+        } else {
+            return response()->json([
+                'status' => 'Not Found',
+                'message' => 'Given property id not found',
+            ], 404);
+        }
     }
 }

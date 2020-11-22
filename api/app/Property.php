@@ -15,12 +15,12 @@ class Property extends Model
         'state',
         'country',
     ];
-    
+
     /**
      * Get the analytics for the property
      */
     public function analytics()
     {
-        return $this->hasMany('App\Models\PropertyAnalytic');
+        return $this->hasMany('App\PropertyAnalytic');
     }
 }

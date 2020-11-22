@@ -32,4 +32,12 @@ class PropertyController extends Controller
 
         return $this->property->store($request);
     }
+
+    public function analytics($id)
+    {
+        // response()->json([
+        //    $id
+        // ], 200);
+        return $this->property->analytics($id);
+    }
 }

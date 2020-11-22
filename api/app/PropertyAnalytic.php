@@ -14,7 +14,7 @@ class PropertyAnalytic extends Model
     */
     public function property()
     {
-        return $this->belongsTo('App\Models\Property');
+        return $this->belongsTo('App\Property');
     }
 
     /**
@@ -22,6 +22,6 @@ class PropertyAnalytic extends Model
      */
     public function analyticType()
     {
-        return $this->belongsTo('App\Models\AnalyticType');
+        return $this->belongsTo('App\AnalyticType');
     }
 }

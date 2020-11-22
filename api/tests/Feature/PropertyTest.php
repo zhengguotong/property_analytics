@@ -10,7 +10,6 @@ use Tests\TestCase;
 class PropertyTest extends TestCase
 {
     use DatabaseMigrations;
-
     /**
      * Test create property
      *
@@ -34,11 +33,31 @@ class PropertyTest extends TestCase
             'country' => 'Australia'
         );
         $response = $this->json('POST', '/api/properties', $data);
-        // dd($response);
+
         $response
             ->assertStatus(200)
             ->assertJson([
                 'message' => 'New model created'
+            ]);
+    }
+
+    public function testAnalytics()
+    {
+        $this->seed();
+        //test  failed case
+        $response = $this->get('/api/properties/83928392/analytics');
+
+        $response
+            ->assertStatus(404)
+            ->assertJson([
+                "status" => "Not Found",
+            ]);
+    
+        $response = $this->get('/api/properties/2/analytics');
+        $response
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => []
             ]);
     }
 }
