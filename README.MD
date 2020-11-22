@@ -15,6 +15,14 @@ cp .env.example .env
 - property_nginx Nginx Container
 - property_db DD Container
 
+
+### Import DB Seeder
+The sample data csv is store under `database/seeds/csv/` folder
+use following command to import sample data 
+```bash
+php artisan db:seed
+```
+
 ## API Endpoint
 
 ### Add a new property 
