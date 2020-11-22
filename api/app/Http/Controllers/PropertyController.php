@@ -14,7 +14,13 @@ class PropertyController extends Controller
     {
         $this->property = $property;
     }
-
+    
+    /**
+     * Create new Property
+     *
+     * @param Request $request
+     * @return void
+     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -33,12 +39,25 @@ class PropertyController extends Controller
         return $this->property->store($request);
     }
 
+    /**
+     * Get analytic given by property id
+     *
+     * @param int $id
+     * @return void
+     */
     public function analytics($id)
     {
         return $this->property->analytics($id);
     }
 
-    public function addAnalytic($id, Request $request)
+    /**
+     * Update or Create a analytic give by the property id
+     *
+     * @param [type] $id
+     * @param Request $request
+     * @return void
+     */
+    public function createOrUpdateAnalytic($id, Request $request)
     {
         $validator = Validator::make($request->all(), [
             'value' => 'required|numeric',//only consider numeric for now
@@ -52,6 +71,6 @@ class PropertyController extends Controller
             ], 401);
         }
 
-        return $this->property->addAnalytic($id, $request);
+        return $this->property->createOrUpdateAnalytic($id, $request);
     }
 }

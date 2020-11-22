@@ -14,6 +14,15 @@ class PropertyAnalyticController extends Controller
         $this->propertyAnalytic = $propertyAnalytic;
     }
 
+    /**
+     * Search property analytic given by location filter
+     * 1.suburb
+     * 2.state
+     * 3.country
+     *
+     * @param Request $request
+     * @return void
+     */
     public function search(Request $request)
     {
         return $this->propertyAnalytic->filterLocation($request);

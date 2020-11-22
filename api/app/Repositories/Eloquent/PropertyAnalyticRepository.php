@@ -17,6 +17,16 @@ class PropertyAnalyticRepository extends BaseRepository implements IPropertyAnal
         return PropertyAnalytic::class;
     }
 
+    /**
+     * filter properties by location filters
+     * .suburb
+     * .state
+     * .country
+     *
+     *
+     * @param Request $request
+     * @return void
+     */
     public function filterLocation(Request $request)
     {
         $values = array();
@@ -35,6 +45,7 @@ class PropertyAnalyticRepository extends BaseRepository implements IPropertyAnal
         }
 
         if (!empty($data) && count($data) > 0) {
+            //group values base on analytic type id
             $data->map(function ($item) use (&$values) {
                 //if not set this analytic before
                 if (!isset($values[$item->analytic_type_id])) {
@@ -58,12 +69,28 @@ class PropertyAnalyticRepository extends BaseRepository implements IPropertyAnal
             'message' => 'Not properties analytic matched given search criteria',
         ], 404);
     }
-
+    
+    /**
+     * Get total property count base on filter key and value
+     *
+     * @param [type] $key
+     * @param [type] $value
+     * @return void
+     */
     protected function getPropertyCount($key, $value)
     {
         return DB::table('properties')->where($key, $value)->count();
     }
 
+    /**
+     * get Analytic Values
+     * min value, max value, median value, percentage properties with a value,
+     * percentage properties without a value
+     *
+     * @param array $values
+     * @param int $total_property
+     * @return array
+     */
     protected function formatAnalyticValues(array $values, $total_property)
     {
         $return = array();
@@ -88,6 +115,14 @@ class PropertyAnalyticRepository extends BaseRepository implements IPropertyAnal
         return $return;
     }
 
+    /**
+     * get property analytic median value
+     *
+     * @param array $value
+     * @param integer $count
+     * @param integer $decimal_place
+     * @return number
+     */
     protected function getMedianValue(array $value, int $count, int $decimal_place)
     {
         //check is event number
@@ -96,7 +131,7 @@ class PropertyAnalyticRepository extends BaseRepository implements IPropertyAnal
         //is not event number so, median number is the middle number
         if (is_int($middle)) {
             return $value[$middle - 1];
-        } else { //need to avg of middle two value
+        } else { //need to avg of  two values
             $middle = floor($middle);
             return number_format(($value[$middle - 1] +  $value[$middle]) / 2, $decimal_place, '.', '');
         }

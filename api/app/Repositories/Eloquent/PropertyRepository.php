@@ -17,6 +17,12 @@ class PropertyRepository extends BaseRepository implements IProperty
         return Property::class;
     }
 
+    /**
+     * Create new property
+     *
+     * @param Request $request
+     * @return void
+     */
     public function store(Request $request)
     {
         $fields = $request->all();
@@ -32,6 +38,12 @@ class PropertyRepository extends BaseRepository implements IProperty
         ]);
     }
 
+    /**
+     * get property analytic based on property id
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function analytics($id)
     {
         $model = $this->model->find($id);
@@ -45,7 +57,16 @@ class PropertyRepository extends BaseRepository implements IProperty
         }
     }
 
-    public function addAnalytic($id, Request $request)
+    /**
+     * create an analytic for the given property
+     * if the property already has the same analytic
+     * type will update it instead
+     *
+     * @param [type] $id
+     * @param Request $request
+     * @return void
+     */
+    public function createOrUpdateAnalytic($id, Request $request)
     {
         $model = $this->model->find($id);
         if ($model) {
