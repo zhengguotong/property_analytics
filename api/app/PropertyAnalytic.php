@@ -24,4 +24,46 @@ class PropertyAnalytic extends Model
     {
         return $this->belongsTo('App\AnalyticType');
     }
+
+    /**
+     * Scope a query to only include properties of a suburb.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  mixed  $type
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfSuburb($query, $suburb)
+    {
+        return $query->whereHas('property', function ($q) use ($suburb) {
+            $q->where('suburb', '=', $suburb);
+        });
+    }
+
+    /**
+    * Scope a query to only include properties of a suburb.
+    *
+    * @param  \Illuminate\Database\Eloquent\Builder  $query
+    * @param  mixed  $type
+    * @return \Illuminate\Database\Eloquent\Builder
+    */
+    public function scopeOfState($query, $state)
+    {
+        return $query->whereHas('property', function ($q) use ($state) {
+            $q->where('state', '=', $state);
+        });
+    }
+
+    /**
+     * Scope a query to only include properties of a suburb.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  mixed  $type
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfCountry($query, $country)
+    {
+        return $query->whereHas('property', function ($q) use ($country) {
+            $q->where('country', '=', $country);
+        });
+    }
 }

@@ -35,9 +35,6 @@ class PropertyController extends Controller
 
     public function analytics($id)
     {
-        // response()->json([
-        //    $id
-        // ], 200);
         return $this->property->analytics($id);
     }
 }

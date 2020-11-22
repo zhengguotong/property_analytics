@@ -23,4 +23,16 @@ class Property extends Model
     {
         return $this->hasMany('App\PropertyAnalytic');
     }
+
+    /**
+    * Scope a query to only include properties of a given suburb.
+    *
+    * @param  \Illuminate\Database\Eloquent\Builder  $query
+    * @param  mixed  $suburb
+    * @return \Illuminate\Database\Eloquent\Builder
+    */
+    public function scopeOfSuburb($query, $suburb)
+    {
+        return $query->where('suburb', $suburb);
+    }
 }
