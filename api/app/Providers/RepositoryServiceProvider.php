@@ -3,15 +3,11 @@
 namespace App\Providers;
 
 use App\Repositories\Contracts\{
-    IAuthor,
-    IParagraph,
-    IPoetry
+  IProperty
 };
 
 use App\Repositories\Eloquent\{
-    AuthorRepository,
-    ParagraphRepository,
-    PoetryRepository
+   PropertyRepository
 };
 
 use Illuminate\Support\ServiceProvider;
@@ -35,6 +31,6 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-       
+        $this->app->bind(IProperty::class, PropertyRepository::class);
     }
 }
