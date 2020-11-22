@@ -37,4 +37,21 @@ class PropertyController extends Controller
     {
         return $this->property->analytics($id);
     }
+
+    public function addAnalytic($id, Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'value' => 'required|numeric',//only consider numeric for now
+            'analytic_type_id' => 'required|exists:analytic_types,id',
+        ]);
+
+        if ($validator->fails()) {
+            return  response()->json([
+               'status' => 'failed',
+               'message' => $validator->errors()
+            ], 401);
+        }
+
+        return $this->property->addAnalytic($id, $request);
+    }
 }

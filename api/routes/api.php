@@ -22,4 +22,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //create new Property
 Route::post('properties', 'PropertyController@store')->name('property.store');
 Route::get('properties/{property}/analytics', 'PropertyController@analytics')->name('property.analytics');
+Route::post('properties/{property}/analytics', 'PropertyController@addAnalytic');
 Route::get('properties/analytics/search', 'PropertyAnalyticController@search')->name('property.analytics.search');;

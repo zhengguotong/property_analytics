@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\PropertyAnalytic;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -37,8 +38,43 @@ class PropertyTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJson([
-                'message' => 'New model created'
+                'message' => 'New property created'
             ]);
+    }
+
+    public function testUpdateAnalytics()
+    {
+        $this->seed();
+        //test  failed case
+        $data = array(
+            'value' => 'sdsd',
+            'analytic_type_id' => 112
+        );
+          
+        $response = $this->json('POST', '/api/properties/2/analytics', $data);
+
+
+        $response
+            ->assertStatus(401)
+            ->assertJson([
+                "status" => "failed",
+            ]);
+
+        //test update
+        $data = array(
+           'value' => '1.2',
+           'analytic_type_id' => 2
+       );
+
+        $response = $this->json('POST', '/api/properties/2/analytics', $data);
+
+        $response->assertStatus(200);
+        
+        //check if the value is updated
+        $model = PropertyAnalytic::where('property_id', 2)
+                ->where('analytic_type_id', 2)
+                ->first();
+        $this->assertEquals('1.2', $model->value);
     }
 
     public function testAnalytics()

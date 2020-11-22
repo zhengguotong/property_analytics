@@ -24,12 +24,11 @@ class PropertyRepository extends BaseRepository implements IProperty
         //generate UUID for this property
         $fields['guid'] = (string) Str::uuid();
 
-        $model = $this->model::create($fields);
-
+        $this->model::create($fields);
+        
         return response()->json([
             'status' => 'success',
-            'message' => 'New model created',
-            'data' => $model
+            'message' => 'New property created',
         ]);
     }
 
@@ -38,6 +37,26 @@ class PropertyRepository extends BaseRepository implements IProperty
         $model = $this->model->find($id);
         if ($model) {
             return PropertyAnalyticResource::collection($model->analytics);
+        } else {
+            return response()->json([
+                'status' => 'Not Found',
+                'message' => 'Given property id not found',
+            ], 404);
+        }
+    }
+
+    public function addAnalytic($id, Request $request)
+    {
+        $model = $this->model->find($id);
+        if ($model) {
+            $condition['analytic_type_id'] = $request->analytic_type_id;
+            $data['value'] =  $request->value;
+            $model->analytics()->updateOrCreate($condition, $data);
+           
+            return response()->json([
+            'status' => 'success',
+            'message' => 'property analytic success created/updated     ',
+        ]);
         } else {
             return response()->json([
                 'status' => 'Not Found',

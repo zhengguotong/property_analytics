@@ -9,6 +9,12 @@ class PropertyAnalytic extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'property_id',
+        'analytic_type_id',
+        'value',
+    ];
+
     /**
     * Get the property that owns the analytic.
     */
